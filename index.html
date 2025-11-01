@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perilisan Dynotic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Outfit", sans-serif;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: linear-gradient(160deg, #4c1d95, #7e22ce, #a78bfa);
+      background-size: 400% 400%;
+      animation: aurora 10s ease-in-out infinite;
+      color: #f5f3ff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    @keyframes aurora {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 700;
+      background: linear-gradient(90deg, #fff, #ddd6fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 50px;
+      text-shadow: 0 0 15px rgba(255,255,255,0.15);
+      opacity: 0;
+      animation: fadeDown 1.3s ease forwards;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      width: 90%;
+      max-width: 320px;
+    }
+
+    .menu a {
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 14px 0;
+      border-radius: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      opacity: 0;
+      animation: fadeUp 1.3s ease forwards;
+    }
+
+    .menu a:nth-child(1) { animation-delay: 0.3s; }
+    .menu a:nth-child(2) { animation-delay: 0.5s; }
+    .menu a:nth-child(3) { animation-delay: 0.7s; }
+    .menu a:nth-child(4) { animation-delay: 0.9s; }
+
+    .menu a:hover {
+      background: rgba(255,255,255,0.15);
+      transform: translateY(-3px);
+      box-shadow: 0 0 12px rgba(255,255,255,0.1);
+    }
+
+    /* Kembali bisa diklik tapi tidak melakukan apa-apa */
+    .menu a.kembali {
+      cursor: pointer;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 15px;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.3px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-height: 600px) {
+      h1 { margin-bottom: 30px; font-size: 1.8rem; }
+      .menu a { padding: 12px 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Start Your Release</h1>
+
+  <div class="menu">
+    <a href="https://dynoticid.github.io/dynoticlose/">Original</a>
+    <a href="https://dynoticid.github.io/dynoticlose/">Cover to Master</a>
+    <a href="#">About</a>
+    <a class="kembali" href="javascript:void(0)">Kembali</a>
+  </div>
+
+  <footer>© 2025 Dynotic Release Portal</footer>
+</body>
+</html>
