@@ -17,6 +17,7 @@
       width: 100%;
       height: 100%;
       overflow-x: hidden;
+      overflow-y: auto;
       background: linear-gradient(160deg, #4c1d95, #7e22ce, #a78bfa);
       background-size: 400% 400%;
       animation: aurora 10s ease-in-out infinite;
@@ -27,6 +28,9 @@
       align-items: center;
       text-align: center;
       transition: opacity 0.4s ease;
+
+      /* 🚫 Disable native pull-to-refresh */
+      overscroll-behavior-y: contain;
     }
 
     @keyframes aurora {
@@ -133,7 +137,7 @@
   <footer>© 2025 Dynotic ID</footer>
 
   <script>
-    // Pull-to-refresh
+    // Pull-to-refresh custom
     let startY = 0;
     let pulling = false;
     const indicator = document.getElementById("refreshIndicator");
@@ -151,8 +155,9 @@
       if (distance > 0) {
         indicator.style.opacity = "1";
         indicator.style.top = `${Math.min(60, distance / 2)}px`;
+        e.preventDefault(); // hentikan scroll native
       }
-    });
+    }, { passive: false });
 
     window.addEventListener("touchend", e => {
       if (!pulling) return;
