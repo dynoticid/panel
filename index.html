@@ -16,7 +16,7 @@
     html, body {
       width: 100%;
       height: 100%;
-      overflow: hidden;
+      overflow-x: hidden;
       background: linear-gradient(160deg, #4c1d95, #7e22ce, #a78bfa);
       background-size: 400% 400%;
       animation: aurora 10s ease-in-out infinite;
@@ -26,6 +26,7 @@
       justify-content: center;
       align-items: center;
       text-align: center;
+      transition: opacity 0.4s ease;
     }
 
     @keyframes aurora {
@@ -42,7 +43,6 @@
       -webkit-text-fill-color: transparent;
       margin-bottom: 50px;
       text-shadow: 0 0 15px rgba(255,255,255,0.15);
-      opacity: 0;
       animation: fadeDown 1.3s ease forwards;
     }
 
@@ -71,17 +71,11 @@
     .menu a:nth-child(1) { animation-delay: 0.3s; }
     .menu a:nth-child(2) { animation-delay: 0.5s; }
     .menu a:nth-child(3) { animation-delay: 0.7s; }
-    .menu a:nth-child(4) { animation-delay: 0.9s; }
 
     .menu a:hover {
       background: rgba(255,255,255,0.15);
       transform: translateY(-3px);
       box-shadow: 0 0 12px rgba(255,255,255,0.1);
-    }
-
-    /* Kembali bisa diklik tapi tidak melakukan apa-apa */
-    .menu a.kembali {
-      cursor: pointer;
     }
 
     footer {
@@ -102,13 +96,32 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @media (max-height: 600px) {
-      h1 { margin-bottom: 30px; font-size: 1.8rem; }
-      .menu a { padding: 12px 0; }
+    /* 🔄 indikator refresh */
+    #refreshIndicator {
+      position: fixed;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 28px;
+      height: 28px;
+      border: 3px solid rgba(255, 255, 255, 0.5);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.2s, top 0.2s;
+      z-index: 9999;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: translateX(-50%) rotate(0deg); }
+      to { transform: translateX(-50%) rotate(360deg); }
     }
   </style>
 </head>
 <body>
+  <div id="refreshIndicator"></div>
+
   <h1>Start Your Release</h1>
 
   <div class="menu">
@@ -118,5 +131,41 @@
   </div>
 
   <footer>© 2025 Dynotic ID</footer>
+
+  <script>
+    // Pull-to-refresh
+    let startY = 0;
+    let pulling = false;
+    const indicator = document.getElementById("refreshIndicator");
+
+    window.addEventListener("touchstart", e => {
+      if (window.scrollY === 0) {
+        startY = e.touches[0].clientY;
+        pulling = true;
+      }
+    });
+
+    window.addEventListener("touchmove", e => {
+      if (!pulling) return;
+      const distance = e.touches[0].clientY - startY;
+      if (distance > 0) {
+        indicator.style.opacity = "1";
+        indicator.style.top = `${Math.min(60, distance / 2)}px`;
+      }
+    });
+
+    window.addEventListener("touchend", e => {
+      if (!pulling) return;
+      const distance = e.changedTouches[0].clientY - startY;
+      pulling = false;
+      indicator.style.top = "15px";
+      if (distance > 100) {
+        document.body.style.opacity = "0";
+        setTimeout(() => location.reload(), 400);
+      } else {
+        indicator.style.opacity = "0";
+      }
+    });
+  </script>
 </body>
 </html>
